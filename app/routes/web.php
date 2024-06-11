@@ -13,9 +13,7 @@ use Livewire\Volt\Volt;
 
 Volt::route('/livewire/users', 'users.index');
 
-//login and register
-//Route::get('/login', [userController::class, 'login'])->name('user.login');
-//Route::get('/register', [userController::class, 'register'])->name('user.register');
+
 
 //movie routes
 Route::get('/', [movieController::class, 'index'])->name('movie.index');

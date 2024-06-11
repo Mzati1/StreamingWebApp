@@ -1,14 +1,9 @@
 <div class="form-control relative" x-data="{ isOpen: true }" @click.away="isOpen = false">
-    <div class="relative">
-        <input wire:model.live="search" type="text" placeholder="Search"
-            class="input input-bordered pl-10 pr-4 py-2 w-24 md:w-auto text-sm transition-all"
-            @focus="isOpen = true" @keydown.escape.window="isOpen = false" @keydown.shift.tab="isOpen = false"
-            @keydown="isOpen = true" @keydown="isOpen = true" />
-        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <i class="fas fa-search text-gray-400 dark:text-gray-600"></i>
-        </div>
-    </div>
-    
+    <input wire:model.live="search" type="text" placeholder="Search"
+        class="input input-bordered w-24 md:w-auto text-sm transition-all" @focus="isOpen = true"
+        @keydown.escape.window="isOpen = false" @keydown.shift.tab="isOpen = false" @keydown="isOpen = true"
+        @keydown="isOpen = true"
+         />
     <div class="absolute top-0"></div>
 
     <span wire:loading class="loading loading-bars loading-sm ml-40 mt-3"></span>
