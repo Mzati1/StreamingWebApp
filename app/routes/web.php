@@ -31,3 +31,7 @@ Route::get('/people/{person_id}',[ peopleController::class, 'showPerson'])->name
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
