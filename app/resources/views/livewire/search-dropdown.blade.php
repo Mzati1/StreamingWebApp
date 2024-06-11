@@ -2,8 +2,7 @@
     <input wire:model.live="search" type="text" placeholder="Search"
         class="input input-bordered w-24 md:w-auto text-sm transition-all" @focus="isOpen = true"
         @keydown.escape.window="isOpen = false" @keydown.shift.tab="isOpen = false" @keydown="isOpen = true"
-        @keydown="isOpen = true"
-         />
+        @keydown="isOpen = true" />
     <div class="absolute top-0"></div>
 
     <span wire:loading class="loading loading-bars loading-sm ml-40 mt-3"></span>
