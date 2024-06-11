@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'HeroBackground';
+    src: url('/fonts/hero-background.ttf') format('truetype');
+    /* Add additional src definitions for other formats if needed */
+    font-weight: normal;
+    /* Adjust font-weight as needed */
+    font-style: normal;
+    /* Adjust font-style as needed */
+}
+
+
+.loading {
+    position: absolute;
+}
+
+.rounded-lg {
+    border-radius: 0.5rem;
+}
+
+.transition {
+    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+}
+
+.transform {
+    --transform-scale-x: 1;
+    --transform-scale-y: 1;
+    --transform-rotate: 0;
+    --transform-translate-x: 0;
+    --transform-translate-y: 0;
+    --transform-skew-x: 0;
+    --transform-skew-y: 0;
+    transform: translateX(var(--transform-translate-x)) translateY(var(--transform-translate-y)) scale(var(--transform-scale-x), var(--transform-scale-y)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y));
+}
+
+.group:hover .group-hover\:scale-105 {
+    --transform-scale-x: 1.05;
+    --transform-scale-y: 1.05;
+}
+
+.group:hover .group-hover\:opacity-75 {
+    opacity: 0.75;
+}
+
+.group:hover .group-hover\:opacity-100 {
+    opacity: 1;
+}
+
+
+.website-name-nav {
+    font-family: 'HeroBackground', sans-serif;
+}
