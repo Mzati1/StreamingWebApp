@@ -1,73 +1,91 @@
 @extends('components.layouts.app')
 
 @section('content')
-<div class="movie-info border-b border-gray-800 dark:border-gray-700">
-    <div class="container mx-auto px-4 py-16 flex flex-col md:flex-row">
-        <img src="{{ config('services.tmdb.image_base_url') . $movie['poster_path'] }}"
-            alt="{{ $movie['title'] }} IMAGE NOT FOUND" class="w-64 md:w-96">
+    <div class="movie-info border-b border-gray-800 dark:border-gray-700">
+        <div class="container mx-auto px-4 py-16 flex flex-col md:flex-row">
+            <img src="{{ config('services.tmdb.image_base_url') . $movie['poster_path'] }}"
+                alt="{{ $movie['title'] }} IMAGE NOT FOUND" class="w-64 md:w-96">
 
-        <div class="md:ml-24">
-            <h2 class="text-4xl font-semibold text-gray-900 dark:text-gray-100 mb-5">{{ $movie['title'] }}</h2>
-            <div class="flex flex-wrap items-center text-gray-400 text-sm dark:text-gray-300">
-                <span><i class="fas fa-star text-yellow-500 mr-1"></i></span>
-                <span>{{ round($movie['vote_average'] * 10, 1) }} %</span>
-                <span class="mx-2">|</span>
-                <span>{{ Carbon\Carbon::parse($movie['release_date'])->format('M d, Y') }}</span>
-                <span class="mx-2">|</span>
-                <span class="mx-2">
-                    @foreach ($movie['genres'] as $genre)
-                        <span class="mr-1">{{ $genre['name'] }}</span>
-                    @endforeach
-                </span>
-            </div>
+            <div class="md:ml-24">
+                <h2 class="text-4xl font-semibold text-gray-900 dark:text-gray-100 mb-5">{{ $movie['title'] }}</h2>
+                <div class="flex flex-wrap items-center text-gray-400 text-sm dark:text-gray-300">
+                    <span><i class="fas fa-star text-yellow-500 mr-1"></i></span>
+                    <span>{{ round($movie['vote_average'] * 10, 1) }} %</span>
+                    <span class="mx-2">|</span>
+                    <span>{{ Carbon\Carbon::parse($movie['release_date'])->format('M d, Y') }}</span>
+                    <span class="mx-2">|</span>
+                    <span class="mx-2">
+                        @foreach ($movie['genres'] as $genre)
+                            <span class="mr-1">{{ $genre['name'] }}</span>
+                        @endforeach
+                    </span>
+                </div>
 
-            <p class="text-gray-300 mt-8 dark:text-gray-400">{{ $movie['overview'] }}</p>
+                <p class="text-gray-800 mt-8 dark:text-gray-400">{{ $movie['overview'] }}</p>
 
-            <div class="mt-12">
-                <div x-data="{ isOpen: false }">
-                    <div class="mt-12 flex space-x-4">
-                        <button class="flex inline-flex items-center bg-blue-500 text-white rounded font-semibold px-5 py-4 hover:bg-blue-600 transition ease-in-out duration-150">
-                            <i class="fas fa-plus-circle text-white mr-2"></i>
-                            <span>Add to Watchlist</span>
-                        </button>
-                        <button @click="isOpen = true" class="flex inline-flex items-center bg-orange-500 text-gray-900 dark:text-gray-100 rounded font-semibold px-5 py-4 hover:bg-orange-600 transition ease-in-out duration-150">
-                            <i class="fas fa-play-circle text-white mr-2"></i>
-                            <span>Play Trailer</span>
-                        </button>
-                    </div>
+                <div class="mt-12">
+                    <div x-data="{ isOpen: false, isWatchNow: false }">
+                        <div class="mt-12 flex space-x-4">
+                            <button
+                                class="flex inline-flex items-center bg-blue-500 text-white rounded font-semibold px-5 py-4 hover:bg-blue-600 transition ease-in-out duration-150">
+                                <i class="fas fa-plus-circle text-white mr-2"></i>
+                                <span>Add to Watchlist</span>
+                            </button>
+                            <button @click="isOpen = true; isWatchNow = false"
+                                class="flex inline-flex items-center bg-orange-500 text-gray-900 dark:text-gray-100 rounded font-semibold px-5 py-4 hover:bg-orange-600 transition ease-in-out duration-150">
+                                <i class="fas fa-play-circle text-white mr-2"></i>
+                                <span>Play Trailer</span>
+                            </button>
+                            <button @click="isOpen = true; isWatchNow = true"
+                                class="flex inline-flex items-center bg-red-500 text-gray-900 dark:text-gray-100 rounded font-semibold px-5 py-4 hover:bg-red-600 transition ease-in-out duration-150">
+                                <i class="fas fa-play-circle mr-2"></i>
+                                <span>Watch Now</span>
+                            </button>
+                        </div>
 
-                    <template x-if="isOpen">
-                        <div style="background-color: rgba(0, 0, 0, .5);"
-                            class="fixed z-50 top-0 left-0 w-full h-full flex items-center shadow-lg overflow-y-auto">
-                            <div class="container mx-auto lg:px-32 rounded-lg overflow-y-auto">
-                                <div class="bg-gray-900 rounded">
-                                    <div class="flex justify-end pr-4 pt-2">
-                                        <button @click="isOpen = false" @keydown.escape.window="isOpen = false"
-                                            class="text-3xl leading-none hover:text-gray-300">&times;
-                                        </button>
-                                    </div>
-                                    <div class="modal-body px-8 py-8">
-                                        <div class="responsive-container overflow-hidden relative"
-                                            style="padding-top: 56.25%">
-                                            @if ($movieVideos)
-                                                <iframe class="responsive-iframe absolute top-0 left-0 w-full h-full"
-                                                    src="https://www.youtube.com/embed/{{ reset($movieVideos)['key'] }}"
-                                                    style="border:0;" allow="autoplay; encrypted-media"
-                                                    allowfullscreen></iframe>
-                                            @else
-                                                <p class="text-white text-center">Trailer not available</p>
-                                            @endif
+                        <template x-if="isOpen">
+                            <div style="background-color: rgba(0, 0, 0, .5);"
+                                class="fixed z-50 top-0 left-0 w-full h-full flex items-center shadow-lg overflow-y-auto">
+                                <div class="container mx-auto lg:px-32 rounded-lg overflow-y-auto">
+                                    <div class="bg-gray-900 rounded">
+                                        <div class="flex justify-end pr-4 pt-2">
+                                            <button @click="isOpen = false" @keydown.escape.window="isOpen = false"
+                                                class="text-3xl leading-none hover:text-gray-300">&times;
+                                            </button>
+                                        </div>
+                                        <div class="modal-body px-8 py-8">
+                                            <div class="responsive-container overflow-hidden relative"
+                                                style="padding-top: 56.25%">
+                                                <template x-if="!isWatchNow">
+                                                    @if ($movieVideos)
+                                                        <iframe
+                                                            class="responsive-iframe absolute top-0 left-0 w-full h-full"
+                                                            src="https://www.youtube.com/embed/{{ reset($movieVideos)['key'] }}"
+                                                            style="border:0;" allow="autoplay; encrypted-media"
+                                                            allowfullscreen></iframe>
+                                                    @else
+                                                        <p class="text-white text-center">Trailer not available</p>
+                                                    @endif
+                                                </template>
+                                                <template x-if="isWatchNow">
+
+                                                    <iframe class="responsive-iframe absolute top-0 left-0 w-full h-full"
+                                                        src="https://vidsrc.xyz/embed/movie?imdb={{ $movie['imdb_id'] }}"
+                                                        style="border:0;" allow="autoplay; encrypted-media" allowfullscreen>
+                                                    </iframe>
+
+                                                </template>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </template>
+                        </template>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
     <!--cast-->
     <div class="movie-cast border-b border-gray-800 dark:border-gray-700">

@@ -1,7 +1,33 @@
-/node_modules
-/public/build
-/public/hot
+# Laravel specific
+/vendor/
+/node_modules/
 /public/storage
 /storage/*.key
-.env
+/storage/logs
+/storage/framework/cache
+/storage/framework/sessions
+/storage/framework/testing
+/storage/framework/views
+/.env
+/.env.local.php
 .phpunit.result.cache
+.phpunit.cache
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+
+
+# IDE and system specific
+.idea
+.vscode
+*.swp
+*~
+.DS_Store
+Thumbs.db
+*.sublime-project
+*.sublime-workspace
+._*
+
+# Vercel specific
+/.vercel

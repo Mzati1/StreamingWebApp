@@ -196,7 +196,6 @@ class seriesController extends Controller
             $tvShowImages = $filteredTvShowImages;
             $recommendations = $filteredRecommendations;
 
-
             // Return the view with the TV show details and credits
             return view('tvshows.showTvShow', [
                 'tvShow' => $tvShowDetails,
@@ -214,6 +213,118 @@ class seriesController extends Controller
             ]);
 
             // Check if the exception has a response
+            if ($e->hasResponse()) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                $errorBody = json_decode($response->getBody(), true);
+
+                Log::error('TMDB API Error Response', [
+                    'status_code' => $statusCode,
+                    'error' => $errorBody,
+                ]);
+            }
+
+            return response()->json(['error' => 'Failed to fetch TV show details'], 500);
+        }
+    }
+
+    //watch series
+
+    public function watchSeries($id)
+    {
+        // Fetch the base URL and token from the config
+        $baseUrl = rtrim(config('services.tmdb.base_url'), '/');
+        $token = config('services.tmdb.token');
+
+        // Construct the full URLs
+        $tvShowDetailsUrl = "{$baseUrl}/tv/{$id}?append_to_response=seasons,external_ids&language=en-US";
+        $genreListUrl = "{$baseUrl}/genre/tv/list?language=en";
+        $tvShowExternalsUrl = "{$baseUrl}/tv/{$id}/external_ids";
+        $recommendationsUrl = "{$baseUrl}/tv/{$id}/recommendations?language=en-US&page=1";
+
+        // Create a new Guzzle client
+        $client = new Client();
+
+        try {
+            // Send the GET requests concurrently
+            $promises = [
+                'tvShowDetails' => $client->requestAsync('GET', $tvShowDetailsUrl, [
+                    'headers' => [
+                        'Authorization' => 'Bearer ' . $token,
+                        'Accept' => 'application/json',
+                    ],
+                ]),
+                'recommendations' => $client->requestAsync('GET', $recommendationsUrl, [
+                    'headers' => [
+                        'Authorization' => 'Bearer ' . $token,
+                        'Accept' => 'application/json',
+                    ],
+                ]),
+                'genreList' => $client->requestAsync('GET', $genreListUrl, [
+                    'headers' => [
+                        'Authorization' => 'Bearer ' . $token,
+                        'Accept' => 'application/json',
+                    ],
+                ]),
+                'tvShowExternals' => $client->requestAsync('GET', $tvShowExternalsUrl, [
+                    'headers' => [
+                        'Authorization' => 'Bearer ' . $token,
+                        'Accept' => 'application/json',
+                    ],
+                ]),
+            ];
+
+            // Wait for the requests to complete
+            $responses = Utils::unwrap($promises);
+
+            // Parse the responses
+            $tvShowDetails = json_decode($responses['tvShowDetails']->getBody(), true);
+            $tvShowExternals = json_decode($responses['tvShowExternals']->getBody(), true);
+            $recommendations = json_decode($responses['recommendations']->getBody(), true);
+            $genreList = json_decode($responses['genreList']->getBody(), true);
+
+            // Map genre IDs to their names
+            $genreMap = [];
+            foreach ($genreList['genres'] as $genre) {
+                $genreMap[$genre['id']] = $genre['name'];
+            }
+
+            $recommendations = $recommendations['results'];
+
+            // Sort recommendations by popularity
+            usort($recommendations, function ($a, $b) {
+                return $b['popularity'] <=> $a['popularity'];
+            });
+
+            // Fetch episodes for each season
+            foreach ($tvShowDetails['seasons'] as &$season) {
+                $seasonNumber = $season['season_number'];
+                $episodesUrl = "{$baseUrl}/tv/{$id}/season/{$seasonNumber}?language=en-US";
+                $seasonResponse = $client->get($episodesUrl, [
+                    'headers' => [
+                        'Authorization' => 'Bearer ' . $token,
+                        'Accept' => 'application/json',
+                    ],
+                ]);
+                $seasonDetails = json_decode($seasonResponse->getBody(), true);
+                $season['episodes'] = $seasonDetails['episodes'];
+            }
+
+            // Return the view with the TV show details and credits
+            return view('tvshows.watchShow', [
+                'tvShow' => $tvShowDetails,
+                'externals' => $tvShowExternals,
+                'recommendations' => $recommendations,
+                'genreMap' => $genreMap,
+            ]);
+
+        } catch (RequestException $e) {
+            // Log the error and return an error response
+            Log::error('TMDB API Request Failed', [
+                'message' => $e->getMessage(),
+                'code' => $e->getCode(),
+            ]);
+
             if ($e->hasResponse()) {
                 $response = $e->getResponse();
                 $statusCode = $response->getStatusCode();

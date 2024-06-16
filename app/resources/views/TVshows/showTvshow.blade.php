@@ -40,6 +40,13 @@
                                 <i class="fas fa-play-circle text-white mr-2"></i>
                                 <span>Play Trailer</span>
                             </button>
+                            <a href="{{ route('serie.watchNow', ['tvID' => $tvShow['id']]) }}">
+                                <button
+                                    class="flex inline-flex items-center bg-red-500 text-white rounded font-semibold px-5 py-4 hover:bg-red-600 transition ease-in-out duration-150">
+                                    <i class="fas fa-play-circle mr-2"></i>
+                                    <span>Watch Now</span>
+                                </button>
+                            </a>
                         </div>
 
                         <template x-if="isOpen">
@@ -87,9 +94,10 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
                 @foreach ($credits as $cast)
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md">
-                        <img src="{{ config('services.tmdb.image_base_url') . $cast['profile_path'] }}"
-                            alt="{{ $cast['name'] }} Profile Image" class="w-full h-auto rounded-t-lg">
-
+                        <a href="{{ route('person.details', ['person_id' => $cast['id']]) }}">
+                            <img src="{{ config('services.tmdb.image_base_url') . $cast['profile_path'] }}"
+                                alt="{{ $cast['name'] }} Profile Image" class="w-full h-auto rounded-t-lg">
+                        </a>
                         <div class="p-4">
                             <div class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ $cast['name'] }}</div>
                             <div class="text-sm text-gray-600 dark:text-gray-300">{{ $cast['character'] }}</div>

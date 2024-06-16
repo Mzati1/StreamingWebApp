@@ -2,16 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-    font-family: 'HeroBackground';
-    src: url('/fonts/hero-background.ttf') format('truetype');
-    /* Add additional src definitions for other formats if needed */
-    font-weight: normal;
-    /* Adjust font-weight as needed */
-    font-style: normal;
-    /* Adjust font-style as needed */
-}
-
 
 .loading {
     position: absolute;
@@ -47,9 +37,4 @@
 
 .group:hover .group-hover\:opacity-100 {
     opacity: 1;
-}
-
-
-.website-name-nav {
-    font-family: 'HeroBackground', sans-serif;
 }

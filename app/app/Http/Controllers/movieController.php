@@ -264,4 +264,5 @@ class MovieController extends Controller
             abort(500, 'Failed to fetch Movies');
         }
     }
+
 }

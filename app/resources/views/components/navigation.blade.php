@@ -4,7 +4,11 @@
         :class="{ 'bg-opacity-75': scrolled }">
         <!-- Left Side: Logo and Movies App button -->
         <div class="flex items-center space-x-4">
-            <a href="{{ route('movie.index') }}" class="btn btn-ghost text-xl website-name-nav">Movies app</a>
+            <a href="{{ route('movie.index') }}" class="btn btn-ghost flex items-center space-x-2">
+                <i class="fas fa-film text-xl"></i>
+                <span class="text-xl font-bold">Movies app</span>
+            </a>
+            
             <a href="{{ route('movie.index') }}" class="btn btn-ghost ml-6">Movies</a>
             <a href="{{ route('series.index') }}" class="btn btn-ghost ml-6">TV shows</a>
             <a href="{{ route('people.index') }}" class="btn btn-ghost ml-6">Actors</a>
@@ -24,10 +28,14 @@
                 <ul tabindex="0"
                     class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 dark:bg-base-700 rounded-box w-52">
                     <li>
-                        <a class="justify-between">Profile</a>
+                        <a class="justify-between">Profile
+                            <span class="badge">soon!</span>
+                        </a>
                     </li>
                     <li>
-                        <a class="justify-between">Watchlist</a>
+                        <a class="justify-between">Watchlist
+                            <span class="badge">soon!</span>
+                        </a>
                     </li>
                     <li>
                         <a class="justify-between">

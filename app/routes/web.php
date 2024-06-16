@@ -1,35 +1,44 @@
 <?php
 
-use App\Http\Controllers\actorController;
-use App\Http\Controllers\movieController;
-use App\Http\Controllers\peopleController;
-use App\Http\Controllers\seriesController;
-use App\Http\Controllers\userController;
-use App\View\Components\movieCard;
-use App\View\Components\personCard;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ActorController;
+use App\Http\Controllers\MovieController;
+use App\Http\Controllers\PeopleController;
+use App\Http\Controllers\SeriesController;
+
+// Volt Livewire route
 use Livewire\Volt\Volt;
 
 Volt::route('/livewire/users', 'users.index');
 
+// Public routes
+Route::get('/', [MovieController::class, 'index'])->name('movie.index');
+Route::get('/movie/{movie_id}', [MovieController::class, 'movieDetails'])->name('movie.details');
+
+Route::get('/series', [SeriesController::class, 'index'])->name('series.index');
+Route::get('/series/{tvID}', [SeriesController::class, 'serieDetails'])->name('serie.details');
+Route::get('/series/{tvID}/watch-now', [SeriesController::class, 'watchSeries'])->name('serie.watchNow');
+
+Route::get('/people', [PeopleController::class, 'index'])->name('people.index');
+Route::get('/people/{person_id}', [PeopleController::class, 'showPerson'])->name('person.details');
+
+// Profile route
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [UserController::class, 'profile'])->name('user.profile');
+});
+
+Route::post('/login', [UserController::class, 'login'])->name('user.login');
 
 
-//movie routes
-Route::get('/', [movieController::class, 'index'])->name('movie.index');
-Route::get('/movie/{movie_id}', [movieController::class, 'movieDetails'])->name('movie.details');
+Route::get('/verify', [UserController::class, 'verify'])->name('user.verify');
+Route::post('/verify', [UserController::class, 'resendVerificationLink'])->name('user.verify.resend');
 
-//series routes
-Route::get('/series', [seriesController::class, 'index'])->name('series.index');
-Route::get('/series/{tvID}', [seriesController::class, 'serieDetails'])->name('serie.details');
 
-//person routes
-Route::get('/people', [peopleController::class, 'index'])->name('people.index');
-Route::get('/people/{person_id}',[ peopleController::class, 'showPerson'])->name('person.details');
+// Authentication routes
 Auth::routes();
+Auth::routes(['verify' => true]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// user post routes
+Route::post('/register', [UserController::class, 'create'])->name('user.create.profile');
