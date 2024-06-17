@@ -180,7 +180,7 @@ class MovieController extends Controller
             $movieCredits = json_decode($responses['movieCredits']->getBody(), true);
             $movieImages = json_decode($responses['movieImages']->getBody(), true);
             $movieVideos = json_decode($responses['movieVideos']->getBody(), true);
-            
+
             $recommendations = json_decode($responses['recommendations']->getBody(), true);
             $genreList = json_decode($responses['genreList']->getBody(), true);
 
@@ -264,5 +264,4 @@ class MovieController extends Controller
             abort(500, 'Failed to fetch Movies');
         }
     }
-
 }

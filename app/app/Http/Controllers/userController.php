@@ -123,7 +123,7 @@ class userController extends Controller
 
         // Resend verification email if user found
         if ($user) {
-            $user->sendEmailVerificationNotification();
+            $user->sendEmailVerificationNotification(route('user.verify'));
             return back()->with('success', 'Verification link sent! Please check your email.');
         }
 
@@ -173,7 +173,7 @@ class userController extends Controller
      */
     public function register()
     {
-        return view('authentication.register');
+        return view('auth.register');
     }
 
     public function login(Request $request)
@@ -190,13 +190,27 @@ class userController extends Controller
             $request->session()->regenerate();
 
             // Redirect to a specific route or return a response
-            return redirect()->intended('/profile'); 
+            return redirect()->intended('/profile');
         }
 
         // Authentication failed
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ]);
+    }
+
+    public function getLogin()
+    {
+        return view('auth.login');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/'); // Redirect to the homepage or any other page after logout
     }
 
 
@@ -246,7 +260,7 @@ class userController extends Controller
         ]);
 
         // Send email verification notification
-        $user->sendEmailVerificationNotification();
+        $user->sendEmailVerificationNotification(route('user.verify'));
 
         // Redirect to verify page with success message and user's email
         return redirect('/verify')->with(['success' => 'User created successfully! Please check your email for verification.', 'userEmail' => $user->email]);

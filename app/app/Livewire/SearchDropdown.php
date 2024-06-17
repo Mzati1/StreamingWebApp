@@ -27,7 +27,7 @@ class SearchDropdown extends Component
 
         $client = new \GuzzleHttp\Client();
 
-        if (strlen($this->search)> 2) {
+        if (strlen($this->search) > 2) {
             try {
                 // Send the request to the TMDb API
                 $response = $client->request('GET', $searchUrl, [
@@ -37,10 +37,10 @@ class SearchDropdown extends Component
                     ],
                     'query' => $queryParams,
                 ]);
-    
+
                 // Decode the response body
                 $searchResults = json_decode($response->getBody(), true);
-    
+
                 //filter result and only retrieve results 
                 $searchResults = $searchResults['results'];
             } catch (\GuzzleHttp\Exception\RequestException $e) {

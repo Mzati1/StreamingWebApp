@@ -10,10 +10,9 @@
                 <div id="successMessage" class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4">
                     <div class="flex items-center">
                         <div class="text-lg">
-                            <svg class="h-6 w-6 text-green-500 mr-4" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M5 13l4 4L19 7"></path>
+                            <svg class="h-6 w-6 text-green-500 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7">
+                                </path>
                             </svg>
                         </div>
                         <div class="text-sm">
@@ -27,8 +26,7 @@
                 <div id="errorMessage" class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4">
                     <div class="flex items-center">
                         <div class="text-lg">
-                            <svg class="h-6 w-6 text-red-500 mr-4" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
+                            <svg class="h-6 w-6 text-red-500 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M6 18L18 6M6 6l12 12"></path>
                             </svg>
@@ -40,12 +38,11 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('user.login') }}">
+            <form method="POST" action="{{ route('login') }}" class="mt-8 space-y-6" enctype="multipart/form-data">
                 @csrf
 
                 <div class="mb-4">
-                    <label for="email"
-                        class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email
+                    <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email
                         Address</label>
                     <input id="email" type="email"
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm @error('email') border-red-500 @enderror"
@@ -71,8 +68,7 @@
                         <input
                             class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 dark:text-gray-400 dark:focus:ring-gray-600 dark:checked:bg-gray-700 rounded"
                             type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                        <label for="remember"
-                            class="ml-2 block text-sm text-gray-900 dark:text-gray-300">Remember
+                        <label for="remember" class="ml-2 block text-sm text-gray-900 dark:text-gray-300">Remember
                             me</label>
                     </div>
 
@@ -97,12 +93,12 @@
     {{-- JavaScript to handle popup message --}}
     <script>
         // Wait until the DOM is fully loaded
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             // If there is a success message, show the success popup and then hide it after 5 seconds
             let successMessage = document.getElementById('successMessage');
             if (successMessage) {
                 successMessage.style.display = 'block';
-                setTimeout(function () {
+                setTimeout(function() {
                     successMessage.style.display = 'none';
                 }, 5000); // 5000 milliseconds = 5 seconds
             }
@@ -111,11 +107,10 @@
             let errorMessage = document.getElementById('errorMessage');
             if (errorMessage) {
                 errorMessage.style.display = 'block';
-                setTimeout(function () {
+                setTimeout(function() {
                     errorMessage.style.display = 'none';
                 }, 5000); // 5000 milliseconds = 5 seconds
             }
         });
-
     </script>
 @endsection

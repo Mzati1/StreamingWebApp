@@ -7,7 +7,8 @@
                 <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">{{ __('Register') }}</h2>
             </div>
 
-            <form method="POST" action="{{ route('user.create.profile') }}" class="mt-8 space-y-6" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('user.create.profile') }}" class="mt-8 space-y-6"
+                enctype="multipart/form-data">
                 @csrf
 
                 <!-- Username -->

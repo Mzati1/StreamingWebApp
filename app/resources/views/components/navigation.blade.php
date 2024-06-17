@@ -8,7 +8,7 @@
                 <i class="fas fa-film text-xl"></i>
                 <span class="text-xl font-bold">Movies app</span>
             </a>
-            
+
             <a href="{{ route('movie.index') }}" class="btn btn-ghost ml-6">Movies</a>
             <a href="{{ route('series.index') }}" class="btn btn-ghost ml-6">TV shows</a>
             <a href="{{ route('people.index') }}" class="btn btn-ghost ml-6">Actors</a>
@@ -21,29 +21,56 @@
             <div class="dropdown dropdown-end">
                 <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
                     <div class="w-10 rounded-full">
-                        <img alt="Profile Image"
-                            src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                        @auth
+                            <img alt="Profile Image" src="{{ Auth::user()->profile_photo_url }}" />
+                        @else
+                            <img alt="Stock Image"
+                                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                        @endauth
                     </div>
                 </div>
                 <ul tabindex="0"
                     class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 dark:bg-base-700 rounded-box w-52">
-                    <li>
-                        <a class="justify-between">Profile
-                            <span class="badge">soon!</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="justify-between">Watchlist
-                            <span class="badge">soon!</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="justify-between">
-                            Settings
-                            <span class="badge">soon!</span>
-                        </a>
-                    </li>
-                    <li><a>Logout</a></li>
+                    @auth
+                        <li>
+                            <a href="{{ route('user.profile') }}">Profile</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('user.profile') }}">Watchlist</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('user.profile') }}">Settings</a>
+                        </li>
+                        <li>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit">Logout</button>
+                            </form>
+                        </li>
+                    @endauth
+                    @guest
+                        <li>
+                            <a href="{{ route('register') }}">Profile
+                                <span class="badge">Register</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('register') }}">Watchlist
+                                <span class="badge">Register</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('register') }}">
+                                Settings
+                                <span class="badge">Register</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('login') }}">
+                                <button type="submit">Login</button>
+                            </a>
+                        </li>
+                    @endguest
                 </ul>
             </div>
         </div>

@@ -15,6 +15,7 @@ Volt::route('/livewire/users', 'users.index');
 
 // Public routes
 Route::get('/', [MovieController::class, 'index'])->name('movie.index');
+Route::get('/home', [MovieController::class, 'index'])->name('movie.index');
 Route::get('/movie/{movie_id}', [MovieController::class, 'movieDetails'])->name('movie.details');
 
 Route::get('/series', [SeriesController::class, 'index'])->name('series.index');
@@ -29,7 +30,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [UserController::class, 'profile'])->name('user.profile');
 });
 
-Route::post('/login', [UserController::class, 'login'])->name('user.login');
+
+//Route::post('/login', [UserController::class, 'login'])->name('user.login');
 
 
 Route::get('/verify', [UserController::class, 'verify'])->name('user.verify');
@@ -42,3 +44,5 @@ Auth::routes(['verify' => true]);
 
 // user post routes
 Route::post('/register', [UserController::class, 'create'])->name('user.create.profile');
+
+Route::post('/logout', [UserController::class, 'logout'])->name('logout');
