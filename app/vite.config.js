@@ -24,7 +24,7 @@ export default defineConfig({
         },
     },
     build: {
-        outDir: path.resolve(__dirname, "public"), // Ensure output directory matches Laravel's public directory
+        outDir: path.resolve(__dirname, "public"), 
         manifest: true,
         minify: "terser",
     },

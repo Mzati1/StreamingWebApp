@@ -21,7 +21,15 @@
     <script src="//unpkg.com/alpinejs" defer></script>
 </head>
 
-<body class="bg-gray-100 dark:bg-gray-900">
+<body x-data="{ isLoading: true }" x-init="$nextTick(() => isLoading = false)" class="bg-gray-100 dark:bg-gray-900">
+    <div x-show="isLoading" class="fixed inset-0 z-50 flex items-center justify-center bg-white dark:bg-gray-900">
+        <div class="flex items-center justify-center space-x-2">
+            <div class="w-8 h-8 bg-blue-500 rounded-full animate-bounce"></div>
+            <div class="w-8 h-8 bg-green-500 rounded-full animate-bounce"></div>
+            <div class="w-8 h-8 bg-red-500 rounded-full animate-bounce"></div>
+        </div>
+    </div>
+
     <div id="app">
         <div x-data="{ isOpen: false, scrolled: false }" x-init="window.onscroll = () => scrolled = window.scrollY > 50"
             class="sticky top-4 z-50 transition-all duration-300 ease-in-out">
@@ -122,7 +130,6 @@
                 </svg>
             </button>
         </div>
-
 
         <main class="py-4">
             @yield('content')
