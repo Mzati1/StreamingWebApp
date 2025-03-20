@@ -1,7 +1,7 @@
 
 # 🎥 Movie Streaming Web Application
 
-Welcome to the **Movie Streaming Web Application** developed by **Mzati**! This Laravel-based project allows users to stream their favorite movies and series, discover information about actors, and manage their personal accounts. The app leverages the power of **The Movie Database (TMDb)** API for movie data and the **Vidsrc** API for seamless streaming. Built with **Laravel**, **TailwindCSS**, **DaisyUI**, **Livewire**, **Vite**, **Bootstrap**, **Laravel Mix**, and **Vue**, this application is both robust and user-friendly.
+Welcome to the **Movie Streaming Web Application**! This Laravel-based project allows users to stream their favorite movies and series, discover information about actors, and manage their personal accounts. The app leverages the power of **The Movie Database (TMDb)** API for movie data and the **Vidsrc** API for seamless streaming. Built with **Laravel**, **TailwindCSS**, **DaisyUI**, **Livewire**, **Vite**, **Bootstrap**, **Laravel Mix**, and **Vue**, this application is both robust and user-friendly.
 
 ---
 
